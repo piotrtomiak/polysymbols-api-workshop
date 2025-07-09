@@ -5,11 +5,10 @@
     <vendor>piotrtomiak</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>JavaScript</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.piotrtomiak.polysymbolsapiworkshop.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-        <postStartupActivity implementation="com.github.piotrtomiak.polysymbolsapiworkshop.startup.MyProjectActivity" />
     </extensions>
 </idea-plugin>
