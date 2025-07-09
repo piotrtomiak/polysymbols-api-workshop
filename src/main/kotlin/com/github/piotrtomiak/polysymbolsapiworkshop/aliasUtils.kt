@@ -46,13 +46,20 @@ internal val JSLiteralExpression.isCypressAliasDeclaration: Boolean
       }
     }
 
+internal val JSReferenceExpression.isPossibleCypressGetOrWaitAliasUsage: Boolean
+    get() = parent.asSafely<JSArgumentList>()
+        ?.parent.asSafely<JSCallExpression>()
+        ?.isCypressGetOrWaitCall == true
+
 internal val JSLiteralExpression.isCypressGetOrWaitAliasUsage: Boolean
-  get() =
-    isQuotedLiteral &&
-    this.text.drop(1).startsWith("@") &&
-    parentsOfType<JSCallExpression>().firstOrNull()?.let {
-      it.isCypressCallExpression && ALIAS_METHODS.contains((it.methodExpression as? JSReferenceExpression)?.referenceName)
-    } ?: false
+    get() = isQuotedLiteral
+            && parent.asSafely<JSArgumentList>()
+        ?.parent.asSafely<JSCallExpression>()
+        ?.isCypressGetOrWaitCall == true
+
+private val JSCallExpression.isCypressGetOrWaitCall: Boolean
+    get() =
+        isCypressCallExpression && ALIAS_METHODS.contains((methodExpression as? JSReferenceExpression)?.referenceName)
 
 internal val PsiElement.cypressAliasName: String?
   get() = when {
